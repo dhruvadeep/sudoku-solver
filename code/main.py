@@ -77,3 +77,17 @@ def column_check():
                         clauses.append([-cell(i, j, k), -cell(l, j, k)])
     return clauses
 
+def block_check():
+    clauses = []
+    for i in range(3):
+        for j in range(3):
+            for k in range(9):
+                clause = [cell(i*3 + a, j*3 + b, k) for a in range(3) for b in range(3)]
+                clauses.append(clause)
+                for a in range(3):
+                    for b in range(3):
+                        for c in range(a, 3):
+                            for d in range(b, 3):
+                                if a != c or b != d:
+                                    clauses.append([-cell(i*3 + a, j*3 + b, k), -cell(i*3 + c, j*3 + d, k)])
+    return clauses
