@@ -18,12 +18,12 @@ def createMatrix(line):
 
 
 # Testing for matrix and all
-a = getFile()
-for i in a:
-    x = createMatrix(i)
-    for j in x:
-        print(j)
-    print()
+# a = getFile()
+# for i in a:
+#     x = createMatrix(i)
+#     for j in x:
+#         print(j)
+#     print()
 
 
 # Create a sudoku solver
@@ -36,3 +36,44 @@ for i in a:
         5. Each smaller block should contain all the values.
         6. The initial setup (values for some of the cells).    
 '''
+
+def cell(i, j, k):
+    return i*9*9 + j*9 + k + 1
+    # Reasoning: 9*9 is the total number of cells, 9 is the number of possible values in each cell
+    # The thing is that we are converting 2D to 1D array
+
+def single_cell_check():
+    clauses = []
+    for i in range(9):
+        for j in range(9):
+            clause = [cell(i, j, k) for k in range(9)]
+            clauses.append(clause)
+            for k in range(9):
+                for l in range(k+1, 9):
+                    clauses.append([-cell(i, j, k), -cell(i, j, l)])
+    return clauses
+
+def row_check():
+    clauses = []
+    for i in range(9):
+        for k in range(9):
+            for j in range(9):
+                clause = [cell(i, j, k) for j in range(9)]
+                clauses.append(clause)
+                for j in range(9):
+                    for l in range(j+1, 9):
+                        clauses.append([-cell(i, j, k), -cell(i, l, k)])
+    return clauses
+
+def column_check():
+    clauses = []
+    for j in range(9):
+        for k in range(9):
+            for i in range(9):
+                clause = [cell(i, j, k) for i in range(9)]
+                clauses.append(clause)
+                for i in range(9):
+                    for l in range(i+1, 9):
+                        clauses.append([-cell(i, j, k), -cell(l, j, k)])
+    return clauses
+
