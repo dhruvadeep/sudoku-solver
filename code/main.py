@@ -91,3 +91,39 @@ def block_check():
                                 if a != c or b != d:
                                     clauses.append([-cell(i*3 + a, j*3 + b, k), -cell(i*3 + c, j*3 + d, k)])
     return clauses
+
+def initial_setup(matrix):
+    clauses = []
+    for i in range(9):
+        for j in range(9):
+            if matrix[i][j] != '.':
+                k = int(matrix[i][j]) - 1
+                clauses.append([cell(i, j, k)])
+    return clauses
+
+def sudoku_solver(matrix):
+    clauses = []
+    clauses += single_cell_check()
+    clauses += row_check()
+    clauses += column_check()
+    clauses += block_check()
+    clauses += initial_setup(matrix)
+    return pycosat.solve(clauses)
+
+def main():
+    lines = getFile()
+    for line in lines:
+        matrix = createMatrix(line.strip())
+        solution = sudoku_solver(matrix)
+        if solution == 'UNSAT':
+            print('No solution')
+        else:
+            for i in range(9):
+                for j in range(9):
+                    for k in range(9):
+                        if solution[cell(i, j, k) - 1] > 0:
+                            print(k + 1, end='')
+        print()
+
+if __name__ == '__main__':
+    main()
