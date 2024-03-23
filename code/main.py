@@ -18,12 +18,12 @@ def createMatrix(line):
 
 
 # Testing for matrix and all
-#a = getFile()
-#for i in a:
-#     x = createMatrix(i)
-#     for j in x:
-#         print(j)
-#     print()
+a = getFile()
+for i in a:
+    x = createMatrix(i)
+    for j in x:
+        print(j)
+    print()
 
 
 # Create a sudoku solver
